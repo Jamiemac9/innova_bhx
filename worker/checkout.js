@@ -2,12 +2,12 @@
 // Checkout Session for the deposit. The amount always comes from the
 // server-side catalogue, never from the browser.
 //
-// Required environment variable (Cloudflare Pages > Settings > Variables):
+// Required secret (Cloudflare > Workers & Pages > innova-bhx > Settings > Variables and Secrets):
 //   STRIPE_SECRET_KEY  (encrypted)  sk_test_... while testing, sk_live_... for launch
 // Optional:
 //   SITE_URL           e.g. https://innovamedicalaesthetics.co.uk (defaults to request origin)
 
-import { SERVICES, LOCATIONS, CURRENCY } from "../_lib/catalog.js";
+import { SERVICES, LOCATIONS, CURRENCY } from "./catalog.js";
 
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -17,7 +17,7 @@ const json = (body, status = 200) =>
 
 const clean = (v, max) => String(v ?? "").replace(/[\u0000-\u001f\u007f]/g, " ").trim().slice(0, max);
 
-export async function onRequestPost({ request, env }) {
+export async function checkout(request, env) {
   if (!env.STRIPE_SECRET_KEY) {
     return json({ error: "Online booking isn't switched on yet. Please message us on Instagram to book." }, 503);
   }
@@ -109,4 +109,3 @@ export async function onRequestPost({ request, env }) {
   return json({ url: session.url });
 }
 
-export const onRequest = () => json({ error: "Method not allowed" }, 405);

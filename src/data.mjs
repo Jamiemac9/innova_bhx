@@ -7,19 +7,18 @@ export const SITE = {
   // TODO: replace with the custom domain once it is attached in Cloudflare.
   url: "https://innova-bhx.pages.dev",
   description:
-    "Advanced medical aesthetics in Birmingham and London, led by a registered medical practitioner. Anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations.",
+    "Advanced medical aesthetics in Birmingham and London, led by a qualified doctor and nurse. Anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations.",
   instagram: "https://www.instagram.com/innova_birm",
   instagramHandle: "@innova_birm",
   // TODO: add a public email and phone if the clinic wants them shown.
   email: "",
   phone: "",
-  practitioner: {
-    // TODO: practitioner name, professional body and registration number.
-    // Showing these builds trust with patients and with AI answer engines.
-    name: "",
-    role: "Registered medical practitioner",
-    registration: "", // e.g. "GMC 1234567" or "NMC 12A3456E"
-  },
+  // TODO: names and registration numbers. Showing these builds trust with
+  // patients and with AI answer engines. Leave a name blank to hide that person.
+  team: [
+    { name: "", role: "Doctor", registration: "" }, // e.g. "GMC 1234567"
+    { name: "", role: "Nurse", registration: "" }, // e.g. "NMC 12A3456E"
+  ],
   lastReviewed: "2026-11-17",
 };
 
@@ -60,12 +59,12 @@ export const TREATMENTS = [
     h1: "Anti-wrinkle consultations in Birmingham and London",
     metaTitle: "Anti-Wrinkle Consultation Birmingham & London | Innova",
     metaDescription:
-      "Book an anti-wrinkle consultation with a registered medical practitioner in Birmingham or London. Face-to-face assessment, honest advice and a plan made for you.",
+      "Book an anti-wrinkle consultation with a qualified prescriber in Birmingham or London. Face-to-face assessment, honest advice and a plan made for you.",
     card: "A face-to-face assessment of expression lines with a prescriber, before anything is agreed.",
     image: "antiWrinkle",
     group: "consultation",
     answer:
-      "An anti-wrinkle consultation is a face-to-face appointment with a registered medical practitioner who assesses your expression lines, medical history and goals, explains your options, risks and alternatives, and decides with you whether a prescription treatment is suitable. Nothing is prescribed without this consultation.",
+      "An anti-wrinkle consultation is a face-to-face appointment with a qualified prescriber who assesses your expression lines, medical history and goals, explains your options, risks and alternatives, and decides with you whether a prescription treatment is suitable. Nothing is prescribed without this consultation.",
     sections: [
       {
         h: "What happens at your consultation",
@@ -105,7 +104,7 @@ export const TREATMENTS = [
     h1: "Dermal fillers in Birmingham and London",
     metaTitle: "Dermal Fillers Birmingham & London | Lips, Cheeks, Jawline | Innova",
     metaDescription:
-      "Hyaluronic acid dermal fillers for lips, cheeks, chin and jawline, by a registered medical practitioner in Birmingham and London. Natural, balanced results.",
+      "Hyaluronic acid dermal fillers for lips, cheeks, chin and jawline, by a qualified doctor or nurse in Birmingham and London. Natural, balanced results.",
     card: "Hyaluronic acid filler to restore volume and refine lips, cheeks, chin and jawline.",
     image: "fillers",
     group: "treatment",
@@ -128,7 +127,7 @@ export const TREATMENTS = [
       {
         h: "Safety",
         p: [
-          "Hyaluronic acid filler can be dissolved if ever needed. Being treated by a medical practitioner means complications are recognised early and managed properly.",
+          "Hyaluronic acid filler can be dissolved if ever needed. Being treated by a doctor or nurse means complications are recognised early and managed properly.",
         ],
       },
     ],
@@ -150,7 +149,7 @@ export const TREATMENTS = [
     h1: "Skin boosters in Birmingham and London",
     metaTitle: "Skin Boosters Birmingham & London | Hydration & Glow | Innova",
     metaDescription:
-      "Injectable skin boosters to improve hydration, texture and glow, delivered by a registered medical practitioner in Birmingham and London.",
+      "Injectable skin boosters to improve hydration, texture and glow, delivered by a qualified doctor or nurse in Birmingham and London.",
     card: "Injectable hydration that improves texture, firmness and glow from within.",
     image: "boosters",
     group: "treatment",
@@ -188,12 +187,12 @@ export const TREATMENTS = [
     h1: "Vitamin injection consultations in Birmingham and London",
     metaTitle: "Vitamin Injection Consultation Birmingham & London | Innova",
     metaDescription:
-      "Book a vitamin injection consultation with a registered medical practitioner in Birmingham or London. Medical history first, so any treatment is right for you.",
+      "Book a vitamin injection consultation with a qualified prescriber in Birmingham or London. Medical history first, so any treatment is right for you.",
     card: "A medical consultation to check whether a vitamin injection is appropriate for you.",
     image: "vitamins",
     group: "consultation",
     answer:
-      "A vitamin injection consultation is an appointment with a registered medical practitioner to review your medical history and decide whether a vitamin injection, such as vitamin B12, is appropriate for you. Some vitamin injections are prescription-only, so the consultation always comes first.",
+      "A vitamin injection consultation is an appointment with a qualified prescriber to review your medical history and decide whether a vitamin injection, such as vitamin B12, is appropriate for you. Some vitamin injections are prescription-only, so the consultation always comes first.",
     sections: [
       {
         h: "Your consultation",
@@ -224,7 +223,7 @@ export const LOCATION_PAGES = [
     h1: "Medical aesthetics in Birmingham",
     metaTitle: "Aesthetics Clinic Birmingham | Fillers, Skin Boosters | Innova",
     metaDescription:
-      "Innova Medical Aesthetics in Birmingham: anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations with a registered medical practitioner.",
+      "Innova Medical Aesthetics in Birmingham: anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations with a qualified doctor and nurse.",
     image: "birmingham",
     // TODO: real address and postcode. Leave blank to hide; fill in for local SEO.
     address: { street: "", locality: "Birmingham", region: "West Midlands", postcode: "", country: "GB" },
@@ -240,13 +239,13 @@ export const LOCATION_PAGES = [
     h1: "Medical aesthetics in London",
     metaTitle: "Aesthetics Clinic London | Fillers, Skin Boosters | Innova",
     metaDescription:
-      "Innova Medical Aesthetics in London: anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations with a registered medical practitioner.",
+      "Innova Medical Aesthetics in London: anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations with a qualified doctor and nurse.",
     image: "london",
     address: { street: "", locality: "London", region: "Greater London", postcode: "", country: "GB" },
     geo: { lat: 51.5072, lng: -0.1276 },
     hours: "",
     intro:
-      "The same practitioner and the same standards, in London. Ideal if you live or work in the city and want medically led care without compromise.",
+      "The same doctor and nurse and the same standards, in London. Ideal if you live or work in the city and want medically led care without compromise.",
     areas: ["Central London"],
   },
 ];
@@ -254,7 +253,7 @@ export const LOCATION_PAGES = [
 export const GENERAL_FAQS = [
   [
     "Who carries out treatments at Innova?",
-    "Every consultation and treatment is carried out by a registered medical practitioner, not a beautician or trainee.",
+    "Every consultation and treatment is carried out by our qualified doctor or nurse, never a beautician or trainee.",
   ],
   [
     "Where are Innova's clinics?",
@@ -282,6 +281,6 @@ export const GENERAL_FAQS = [
 export const JOURNEY = [
   ["Consultation", "We listen first. Your goals, your history, your face in motion. No pressure, no upsell."],
   ["Your plan", "A clear recommendation, with costs, risks and alternatives, written down so you can decide in your own time."],
-  ["Treatment", "Precise, unhurried work by a registered medical practitioner, in a calm clinical room."],
+  ["Treatment", "Precise, unhurried work by our qualified doctor or nurse, in a calm clinical room."],
   ["Two-week review", "We check how you've settled and fine-tune if needed. Aftercare doesn't end when you leave."],
 ];

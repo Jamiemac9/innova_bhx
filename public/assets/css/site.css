@@ -215,7 +215,10 @@ body.menu-open { overflow: hidden; }
 .prac-img img { width: 100%; height: 120%; object-fit: cover; }
 .prac-copy h2 { font-size: var(--step-3); margin-bottom: 28px; max-width: 12ch; }
 .prac-copy p { max-width: 34rem; font-size: var(--step-1); line-height: 1.55; color: #4a3b45; }
-.reg { font-size: var(--step--1) !important; color: var(--muted) !important; }
+.team { display: grid; gap: 14px; margin: 8px 0 28px; }
+.team li { display: grid; gap: 2px; border-left: 2px solid var(--blush); padding-left: 14px; }
+.team strong { font: 400 var(--step-1)/1.2 var(--display); }
+.team span { color: var(--muted); font-size: var(--step--1); }
 @media (min-width: 900px) { .practitioner { grid-template-columns: 5fr 6fr; gap: 80px; } }
 
 /* ---------- clinics ---------- */

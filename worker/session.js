@@ -1,8 +1,8 @@
 // GET /api/session?id=cs_... — returns a minimal, non-sensitive summary of a
 // completed Checkout Session for the confirmation page.
-import { formatGBP } from "../_lib/catalog.js";
+import { formatGBP } from "./catalog.js";
 
-export async function onRequestGet({ request, env }) {
+export async function session(request, env) {
   const id = new URL(request.url).searchParams.get("id") || "";
   const headers = { "content-type": "application/json", "cache-control": "no-store" };
   if (!env.STRIPE_SECRET_KEY || !/^cs_(test|live)_[A-Za-z0-9]+$/.test(id)) {

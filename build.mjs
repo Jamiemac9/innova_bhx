@@ -3,11 +3,12 @@
 import { mkdir, writeFile, cp, rm } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { SITE, IMAGES, TREATMENTS, LOCATION_PAGES, GENERAL_FAQS, JOURNEY } from "./src/data.mjs";
-import { SERVICES, LOCATIONS, formatGBP } from "./functions/_lib/catalog.js";
+import { SERVICES, LOCATIONS, formatGBP } from "./worker/catalog.js";
 
 const OUT = "dist";
 const esc = (s = "") =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const TEAM = SITE.team.filter((m) => m.name);
 const abs = (p) => SITE.url.replace(/\/$/, "") + p;
 const pages = [];
 
@@ -30,6 +31,14 @@ const ldOrganization = () => ({
   ],
   department: LOCATION_PAGES.map((l) => ({ "@id": abs(`/locations/${l.slug}/#clinic`) })),
   availableService: TREATMENTS.map((t) => ({ "@id": abs(`/treatments/${t.slug}/#service`) })),
+  ...(TEAM.length && {
+    employee: TEAM.map((m) => ({
+      "@type": "Person",
+      name: m.name,
+      jobTitle: m.role,
+      ...(m.registration && { identifier: m.registration }),
+    })),
+  }),
   ...(SITE.email && { email: SITE.email }),
   ...(SITE.phone && { telephone: SITE.phone }),
 });
@@ -89,8 +98,8 @@ const ldWebPage = (path, title, desc, type = "WebPage") => ({
   inLanguage: "en-GB",
   lastReviewed: SITE.lastReviewed,
   dateModified: SITE.lastReviewed,
-  ...(SITE.practitioner.name && {
-    reviewedBy: { "@type": "Person", name: SITE.practitioner.name, jobTitle: SITE.practitioner.role },
+  ...(TEAM.length && {
+    reviewedBy: TEAM.map((m) => ({ "@type": "Person", name: m.name, jobTitle: m.role })),
   }),
 });
 const ldWebsite = () => ({
@@ -205,7 +214,7 @@ const crumbsHtml = (trail) =>
     .join("")}</ol></nav>`;
 
 const reviewed = () =>
-  `<p class="reviewed">Medically reviewed${SITE.practitioner.name ? ` by ${esc(SITE.practitioner.name)}, ${esc(SITE.practitioner.role)}` : ""} · Updated ${new Date(SITE.lastReviewed).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>`;
+  `<p class="reviewed">Medically reviewed${TEAM.length ? ` by ${TEAM.map((m) => `${esc(m.name)} (${m.role.toLowerCase()})`).join(" and ")}` : ""} · Updated ${new Date(SITE.lastReviewed).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</p>`;
 
 function page(path, html) {
   pages.push({ path, html });
@@ -253,7 +262,7 @@ page(
     <p class="hero-hint" data-hero-hint aria-hidden="true">Scroll</p>
     <div class="hero-copy" data-hero-copy>
       <h1>Subtle work, medically led.</h1>
-      <p>Anti-wrinkle consultations, fillers, skin boosters and vitamin injection consultations with a registered medical practitioner in Birmingham and London.</p>
+      <p>Anti-wrinkle consultations, fillers, skin boosters and vitamin injection consultations with a qualified doctor and nurse in Birmingham and London.</p>
       <div class="hero-ctas">
         <a class="btn btn-light" href="/book/">Book a consultation</a>
         <a class="btn btn-ghost" href="#treatments">See treatments</a>
@@ -265,7 +274,7 @@ page(
 <section class="manifesto" aria-label="Our approach">
   <p class="manifesto-text" data-words>${manifesto}</p>
   <ul class="credentials">
-    <li><strong>Registered medical practitioner</strong><span>Every appointment, start to finish</span></li>
+    <li><strong>Qualified doctor and nurse</strong><span>Every appointment, start to finish</span></li>
     <li><strong>Birmingham and London</strong><span>Two clinics, one standard</span></li>
     <li><strong>Consultation first</strong><span>Clear plans, no pressure</span></li>
   </ul>
@@ -304,9 +313,9 @@ page(
   <figure class="prac-img" data-parallax>${picture("portrait", { sizes: "(min-width: 900px) 45vw, 100vw", alt: "" })}</figure>
   <div class="prac-copy">
     <h2 id="prac-h">Medical first. Aesthetic always.</h2>
-    <p>Innova is led by a ${SITE.practitioner.name ? `${esc(SITE.practitioner.name)}, a ` : ""}registered medical practitioner. That means a full medical history before any treatment, an honest view on what will and won't help, and the training to recognise and manage complications properly.</p>
+    <p>Innova is run by a qualified doctor and a qualified nurse. That means a full medical history before any treatment, an honest view on what will and won't help, and the clinical training to recognise and manage complications properly.</p>
+    ${TEAM.length ? `<ul class="team">${TEAM.map((m) => `<li><strong>${esc(m.name)}</strong><span>${esc(m.role)}${m.registration ? `, ${esc(m.registration)}` : ""}</span></li>`).join("")}</ul>` : ""}
     <p>It also means saying no when a treatment isn't right for you. Most people leave their first consultation with less planned than they expected, and happier for it.</p>
-    ${SITE.practitioner.registration ? `<p class="reg">${esc(SITE.practitioner.registration)}</p>` : ""}
   </div>
 </section>
 
@@ -389,7 +398,7 @@ for (const l of LOCATION_PAGES) {
   const trail = [["Home", "/"], ["Clinics", "/#clinics"], [l.name, path]];
   const faqs = [
     [`Where is Innova's ${l.name} clinic?`, l.address.street ? `${l.address.street}, ${l.address.locality} ${l.address.postcode}.` : `Innova sees patients in ${l.name}. The full clinic address is sent with your booking confirmation.`],
-    [`What treatments are available in ${l.name}?`, `Anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations, all with a registered medical practitioner.`],
+    [`What treatments are available in ${l.name}?`, `Anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations, all with our qualified doctor or nurse.`],
     ...GENERAL_FAQS.slice(2, 4),
   ];
   page(
@@ -571,7 +580,7 @@ const llms = `# ${SITE.name}
 
 > ${SITE.description}
 
-${SITE.name} (Instagram ${SITE.instagramHandle}) is a medically led aesthetics clinic with locations in Birmingham and London, UK. All consultations and treatments are carried out by a registered medical practitioner${SITE.practitioner.name ? ` (${SITE.practitioner.name}${SITE.practitioner.registration ? `, ${SITE.practitioner.registration}` : ""})` : ""}. Patients book online by paying a deposit, which is deducted from the treatment cost.
+${SITE.name} (Instagram ${SITE.instagramHandle}) is a medically led aesthetics clinic with locations in Birmingham and London, UK. All consultations and treatments are carried out by a qualified doctor or a qualified nurse${TEAM.length ? ` (${TEAM.map((m) => `${m.name}, ${m.role.toLowerCase()}${m.registration ? `, ${m.registration}` : ""}`).join("; ")})` : ""}. Prescription-only treatments are only given after a consultation with a prescriber. Patients book online by paying a deposit, which is deducted from the treatment cost.
 
 ## Treatments
 ${TREATMENTS.map((t) => `- [${t.title}](${abs(`/treatments/${t.slug}/`)}): ${t.answer}`).join("\n")}
