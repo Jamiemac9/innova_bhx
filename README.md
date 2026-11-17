@@ -26,7 +26,7 @@ npm run dev                      # http://localhost:8788
 
 ## Deploy on Cloudflare (Workers)
 1. Cloudflare dashboard → Workers & Pages → Create → Import a repository → `Jamiemac9/innova_bhx`.
-2. Project name `innova-bhx` (must match `name` in `wrangler.jsonc`), build command `npm run build`, deploy command `npx wrangler deploy`.
+2. Project name `innova-aesthetics` (must match `name` in `wrangler.jsonc`), build command `npm run build`, deploy command `npx wrangler deploy`.
 3. Worker → Settings → Variables and Secrets:
    - `STRIPE_SECRET_KEY` (type: Secret): `sk_test_…` first, then `sk_live_…`
    - `SITE_URL` (optional, plain text): e.g. `https://yourdomain.co.uk`
