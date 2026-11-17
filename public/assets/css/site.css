@@ -114,7 +114,7 @@ body.menu-open { overflow: hidden; }
 .hero-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; transform: scale(1.15); }
 .hero-stage::after { /* legibility gradient for the copy */
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(43, 29, 40, .35) 0%, rgba(43, 29, 40, 0) 30%, rgba(43, 29, 40, .15) 55%, rgba(43, 29, 40, .82) 100%);
+  background: linear-gradient(180deg, rgba(43, 29, 40, .35) 0%, rgba(43, 29, 40, 0) 25%, rgba(43, 29, 40, .45) 50%, rgba(43, 29, 40, .9) 100%);
   opacity: var(--shade, 0);
 }
 .hero-mask { position: absolute; inset: 0; width: 100%; height: 100%; color: var(--aubergine); z-index: 2; will-change: transform; }
