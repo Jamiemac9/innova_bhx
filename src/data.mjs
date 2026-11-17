@@ -5,7 +5,7 @@ export const SITE = {
   name: "Innova Medical Aesthetics",
   shortName: "Innova",
   // TODO: replace with the custom domain once it is attached in Cloudflare.
-  url: "https://innova-bhx.pages.dev",
+  url: "https://innova-bhx.jamiemack2991.workers.dev",
   description:
     "Advanced medical aesthetics in Birmingham and London, led by a qualified doctor and nurse. Anti-wrinkle consultations, dermal fillers, skin boosters and vitamin injection consultations.",
   instagram: "https://www.instagram.com/innova_birm",
